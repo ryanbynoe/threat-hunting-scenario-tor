@@ -25,7 +25,7 @@ Management suspects that some employees may be using TOR browsers to bypass netw
 
 ### 1. Searched the `DeviceFileEvents` Table
 
-Searched the DeviceFileEvents table for ANY file that had the string “tor” in it and discovered the user “ryan” downloaded a tor installer resulting in ample tor-related files being downloaded to the desktop. These events began at:
+Searched the `DeviceFileEvents` table for ANY file that had the string `tor` in it and discovered the user `ryan` downloaded a `tor installer` resulting in ample `tor-related files` being downloaded to the `desktop`. These events began at:
 
 **Query used to locate events: 2025-01-18T13:45:29.0368279Z**
 
@@ -45,7 +45,7 @@ DeviceFileEvents
 
 ### 2. Searched the `DeviceProcessEvents` Table
 
-Searched the DeviceProcessEvents table for any ProcessCommandLine that contain the string "tor-browser-windows-x86_64-portable-14.0.4.exe". Based on the logs returned [01/18/25 0847] Silent Tor Browser installation detected on ryan's threat lab machine, executed from Downloads with hidden install parameter.
+Searched the `DeviceProcessEvents` table for any `ProcessCommandLine` that contain the string `tor-browser-windows-x86_64-portable-14.0.4.exe`. Based on the logs returned [`01/18/25 0847`] `Silent Tor Browser` installation detected on `ryan's threat lab machine`, executed from `Downloads` with `hidden install parameter`.
 
 **Query used to locate event:**
 
@@ -63,7 +63,7 @@ DeviceProcessEvents
 
 ### 3. Searched the `DeviceProcessEvents` Table for TOR Browser Execution
 
-Searched the DeviceProcessEvents table for any indication that user “ryan” opened the tor browser. There was evidence that they did open it at 2025-01-18T13:48:06.7270137Z. There were several other instances of firefox.exe (tor) as well as tor.exe spawned afterwards.
+Searched the `DeviceProcessEvents` table for any indication that user `ryan` opened the `tor browser`. There was evidence that they did open it at `2025-01-18T13:48:06.7270137Z`. There were several other instances of `firefox.exe` (`tor`) as well as `tor.exe` spawned afterwards.
 
 **Query used to locate events:**
 
@@ -81,8 +81,8 @@ DeviceProcessEvents
 
 ### 4. Searched the `DeviceNetworkEvents` Table for TOR Network Connections
 
-Searched the DeviceNetworkEvents table for any indication the tor browser was used to establish a connection using any of the known tor ports.
-[01/18/25 0848] 2025-01-18T13:48:26.0541486Z Tor process successfully established connection to Austrian IP 193.30.123.132 over port 9001 from ryan's threat lab machine, suggesting initial relay connection.
+Searched the `DeviceNetworkEvents` table for any indication the `tor browser` was used to establish a connection using any of the known `tor ports`.
+[`01/18/25 0848`] `2025-01-18T13:48:26.0541486Z` `Tor` process successfully established connection to `Austrian IP 193.30.123.132` over port `9001` from `ryan's threat lab machine`, suggesting initial relay connection.
 
 
 **Query used to locate events:**
@@ -96,6 +96,23 @@ DeviceNetworkEvents
 
 ```
 <img width="1212" alt="image" src="/assets/knowntorports.png">
+
+---
+
+### 5. Searched the `DeviceFileEvents` Table for Suspicious Tor Files
+
+Searched the `DeviceFileEvents` for any suspicious files containing `tor-shopping` and found a file `tor-shopping-list.txt` created at `2025-01-18T14:48:05.1270045Z`
+
+
+**Query used to locate events:**
+
+```kql
+DeviceFileEvents
+| where DeviceName == "ryan-lab-threat"
+| where FileName contains "tor-shopping"
+
+```
+<img width="1212" alt="image" src="/assets/shoppinglist.png">
 
 ---
 
